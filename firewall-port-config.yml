@@ -1,0 +1,24 @@
+---
+- hosts: ansible-app
+  user: ansadmin
+  become: true
+  become_method: sudo
+  tasks:
+    - name: Install httpd on ansible-app server
+      yum: name=httpd state=present
+      tags: install
+    - name: start the service
+      service: name=httpd state=started enabled=yes
+      tags: start
+    - name: Add port 80/tcp in firewall
+      command: firewall-cmd --permanent --add-port=80/tcp
+      tags: add
+    - name: Add port 80/udp in firewall
+      command: firewall-cmd --permanent --add-port=80/udp
+      tags: add
+    - name: Copy index file
+      copy: src=/tmp/index.html dest=/var/www/html/index.html
+      tags: copy
+    - name: Restart the service
+      service: name=httpd state=restarted
+      tags: restart
