@@ -14,3 +14,4 @@
         region: us-east-1                                 # US East (N. Virginia)us-east-1
         vpc_subnet_id: subnet-06080a28c367cdfd8           # Subnet ID for ec2 instance create
         wait: true                                        # Wait for the instance to reach its desired state
+        instance_tags: EPS-01                             # tags to add to the new instance
