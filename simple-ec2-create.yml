@@ -1,15 +1,18 @@
 # Basic provisioning example
-- name: Ansible test
-hosts: localhost
-tasks:
-- name: launching AWS instance using Ansible
-ec2:
-key_name: aws_instance_Ansible
-instance_type: t2.micro
-image: ami-0dacb0c129b49f529
-region: us-east-2
-wait: yes
-group: Ansible
-count: 1
-vpc_subnet_id: default
-assign_public_ip: yes
+--- 
+- 
+  hosts: localhost
+  tasks: 
+    - 
+      name: "launching AWS instance using Ansible"
+    - 
+      ec2:                                                # ec2 array module
+        assign_public_ip: true                            # Assigning public IP while creating ec2
+        count: 1                                          # Number instance to launch
+        group: default                                    # Using security group as default one                      
+        image: ami-0323c3dd2da7fb37d                      # Free tier eligible AMI ID
+        instance_type: t2.micro                           # Free tier eligible instance type
+        key_name: weareitkings-aws-one-key                # Using already created key-pair
+        region: us-east-1                                 # US East (N. Virginia)us-east-1
+        vpc_subnet_id: subnet-06080a28c367cdfd8           # Subnet ID for ec2 instance create
+        wait: true
