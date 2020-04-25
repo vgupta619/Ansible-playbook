@@ -12,6 +12,6 @@
         instance_type: t2.micro                           # Free tier eligible instance type
         key_name: weareitkings-aws-one-key                # Using already created key-pair
         region: us-east-1                                 # US East (N. Virginia)us-east-1
-        vpc_subnet_id: subnet-06080a28c367cdfd8           # Subnet ID for ec2 instance create
+        vpc_subnet_id: subnet-0eeba53a76f33dab9           # Subnet ID for ec2 instance create
         wait: true                                        # Wait for the instance to reach its desired state
-        instance_tags: EPS-01                             # tags to add to the new instance
+        instance_tags: JUMP-HOST                             # tags to add to the new instance
