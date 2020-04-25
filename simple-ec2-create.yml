@@ -14,4 +14,5 @@
         region: us-east-1                                 # US East (N. Virginia)us-east-1
         vpc_subnet_id: subnet-0eeba53a76f33dab9           # Subnet ID for ec2 instance create
         wait: true                                        # Wait for the instance to reach its desired state
-        instance_tags: JUMP-HOST                             # tags to add to the new instance
+        instance_tags:                                    # tags to add to the new instance
+           Name: JUMP-HOST
