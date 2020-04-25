@@ -3,9 +3,7 @@
 - 
   hosts: localhost
   tasks: 
-    - 
-      name: "launching AWS instance using Ansible"
-    - 
+    - name: "launching AWS instance using Ansible"
       ec2:                                                # ec2 array module
         assign_public_ip: true                            # Assigning public IP while creating ec2
         count: 1                                          # Number instance to launch
