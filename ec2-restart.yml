@@ -1,8 +1,8 @@
 ---
 - hosts: localhost
   tasks:
-  - name: starting the ec2 instance
+  - name: Restarting the ec2 instance
     ec2_instance:
-      state: started
+      state: restarted
       filters:
-        instance-state-name: stopped
+        instance-state-name: running
