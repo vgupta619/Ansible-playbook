@@ -1,1 +1,8 @@
 ---
+- hosts: localhost
+  tasks:
+  - name: Terminating all stopped ec2 instances
+    ec2_instance:
+      state: absent
+      filters:
+        instance-state-name: stopped
