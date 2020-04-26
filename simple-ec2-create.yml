@@ -15,4 +15,4 @@
         vpc_subnet_id: subnet-0eeba53a76f33dab9           # Subnet ID for ec2 instance create
         wait: true                                        # Wait for the instance to reach its desired state
         instance_tags:                                    # tags to add to the new instance
-           Name: JUMP-HOST
+           Name: JUMP-HOST-1
