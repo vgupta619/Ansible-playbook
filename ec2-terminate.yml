@@ -5,4 +5,4 @@
     ec2_instance:
       state: absent
       filters:
-        instance-state-name: stopped
+        instance-state-name: running
