@@ -3,6 +3,7 @@
   tasks:
   - name: Terminating all stopped ec2 instances
     ec2_instance:
+      vpc_subnet_id: subnet-0eeba53a76f33dab9
       state: absent
       filters:
-        instance-state-name: running
+        instance-state-name: stopped
