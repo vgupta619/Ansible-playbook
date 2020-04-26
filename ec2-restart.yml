@@ -1,0 +1,8 @@
+---
+- hosts:
+  tasks:
+  - name: starting the ec2 instance
+    ec2_instance:
+      state: started
+      filters:
+        instance-state-name: stopped
