@@ -1,69 +1,65 @@
 ---
 - hosts: localhost
-  connection: local
-  gather_facts: False
-
+  connection: local              # This connection plugin allows ansible to execute tasks on the Ansible ‘controller’ instead of on a remote host
+  gather_facts: False            # This module is automatically called by playbooks to gather useful variables about remote hosts that can be used in playbooks.
+  
   vars:
-    key_name: my_aws
-    region: us-east-2
-    image: ami-0f93b5fd8f220e428 # https://cloud-images.ubuntu.com/locator/ec2/
-    id: "web-app"
-    sec_group: "{{ id }}-sec"
-
+    key_name: weareitkings-aws-one-key         # key_name will use as variable in playbook
+    region: us-east-1                          # region will use as variable
+    image: ami-0323c3dd2da7fb37d               # image id will usee as variable
+    group: default                             # security group will use as variable
+    vpc-id-vmcs: vpc-0bed70abe2a2b28f2
+	
   tasks:
-
-    - name: Facts
+  - name: Fact
+    block:                                     # Blocks allow for logical grouping of tasks and in play error handling. 
+	  - name: Get instances facts
+	    ec2_instance_info:                       # Gather information about ec2 instances in AWS
+	      aws_access_key: "{{ec2_access_key}}"   # AWS access key. If not set then the value of the AWS_ACCESS_KEY_ID, AWS_ACCESS_KEY or  
+        aws_secret_key: "{{ec2_secret_key}}"   # EC2_ACCESS_KEY environment variable is used.
+        region: "{{ region }}"                 # The AWS region to use
+	    register: result                         # Ansible register module is used to capture or store the output of the command or task. Variable is "result"
+	
+	- name: Instances ID
+	  debug:                                   # debug module Print statements during execution
+	    msg: "ID: {{ item.instance_id }} - State: {{ item.state.name }} - Public DNS: {{ item.public_dns_name }}"  # The customized message that is printed
+      loop: "{{ result.instances }}"         # Loop to repeat a task multiple times.
+	tags: always
+	
+	- name: Provisioning EC2 instances
       block:
-
-      - name: Get instances facts
-        ec2_instance_facts:
-          aws_access_key: "{{ec2_access_key}}"
-          aws_secret_key: "{{ec2_secret_key}}"
-          region: "{{ region }}"
-        register: result
-
-      - name: Instances ID
-        debug:
-          msg: "ID: {{ item.instance_id }} - State: {{ item.state.name }} - Public DNS: {{ item.public_dns_name }}"
-        loop: "{{ result.instances }}"
-
-      tags: always
-
-
-    - name: Provisioning EC2 instances
-      block:
-
-      - name: Upload public key to AWS
-        ec2_key:
-          name: "{{ key_name }}"
-          key_material: "{{ lookup('file', '/Users/julianosilva/.ssh/{{ key_name }}.pub') }}"
+	    - name: Create security group
+        ec2_group:                                   # maintains ec2 security groups. 
+          name: AWS-ANSIBLE                          # Name of the security group.
+          description: Security group for ec2 provisioned by Ansible # Description of the security group
+          vpc_id: "{{ vpc-id-vmcs }}"
           region: "{{ region }}"
           aws_access_key: "{{ec2_access_key}}"
           aws_secret_key: "{{ec2_secret_key}}"
-
-      - name: Create security group
-        ec2_group:
-          name: "{{ sec_group }}"
-          description: "Sec group for app {{ id }}"
-          # vpc_id: 12345
-          region: "{{ region }}"
-          aws_access_key: "{{ec2_access_key}}"
-          aws_secret_key: "{{ec2_secret_key}}"
-          rules:
+          rules:                                     # List of firewall inbound rules to enforce in this group
             - proto: tcp
               ports:
-                - 22
+                - 22                                 # traffic to and from port 22
               cidr_ip: 0.0.0.0/0
               rule_desc: allow all on ssh port
-        register: result_sec_group
-
-      - name: Provision instance(s)
+			      - proto: tcp
+              from_port: 80                          # traffic from port 80
+              to_port: 80                            # traffic to port 80
+              cidr_ip: 0.0.0.0/0 
+			        rule_desc: allow http to from the ec2
+			      - proto: icmp
+              from_port: 8 # icmp type, -1 = any type
+              to_port:  -1 # icmp subtype, -1 = any subtype
+              cidr_ip: 0.0.0.0/0
+			        rule_desc: allow ping to ec2
+        register: result_sec_group                    # store the output to variable "result_sec_group"
+		
+	- name: Provision instance(s)
         ec2:
           aws_access_key: "{{ec2_access_key}}"
           aws_secret_key: "{{ec2_secret_key}}"
           key_name: "{{ key_name }}"
-          id: "{{ id }}"
-          group_id: "{{ result_sec_group.group_id }}"
+          group_id: "{{ result_sec_group }}"
           image: "{{ image }}"
           instance_type: t2.micro
           region: "{{ region }}"
