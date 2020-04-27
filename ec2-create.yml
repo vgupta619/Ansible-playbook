@@ -2,7 +2,6 @@
 - hosts: localhost
   connection: local   # connection plugin execute tasks on the Ansible ‘controller’
   gather_facts: False  # gather useful variables about remote hosts that can be used in playbooks.
-  
   vars:
     key_name: weareitkings-aws-one-key # key_name will use as variable in playbook
     region: us-east-1             # region will use as variable
@@ -28,7 +27,7 @@
         ec2_group:                    # maintains ec2 security groups. 
           name: AWS-ANSIBLE           # Name of the security group.
           description: Security group for ec2 provisioned by Ansible # Description of the security group
-          vpc_id: "{{ vpc-id-vmcs }}"
+          vpc_id: vpc-0bed70abe2a2b28f2
           region: "{{ region }}"
           aws_access_key: "{{ec2_access_key}}"
           aws_secret_key: "{{ec2_secret_key}}"
