@@ -7,6 +7,8 @@
     region: us-east-1             # region will use as variable
     image: ami-0323c3dd2da7fb37d   # image id will usee as variable
     group: default       # security group will use as variable
+   # ec2_access_key: AKIAUW5D4QWYHPHYNAVW
+   # ec2_secret_key: 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
   tasks:
     - name: Fact
       block:                # Blocks allow for logical grouping of tasks and in play error handling. 

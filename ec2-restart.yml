@@ -4,7 +4,7 @@
   tasks:
   - name: Restarting the ec2 instance
     ec2_instance:
-    vpc_subnet_id: subnet-0eeba53a76f33dab9
-      state: restarted
+      vpc_subnet_id: subnet-0eeba53a76f33dab9
+      state: stopped
       filters:
         instance-state-name: running
