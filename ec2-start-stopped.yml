@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+  gather_facts: false  
+  connection: local
+  tasks:
+  - name: Restarting the ec2 instance
+    ec2_instance:
+       vpc_subnet_id: subnet-0eeba53a76f33dab9
+       instance_ids: i-0ff198a4f1ebc29ce
+       region: us-east-1
+       state: running
+       wait: True
+  - ec2_remote_facts:
+       filters:
+         instance-state-name: stopped
+#
+#---
+#- name: Start instances
+#  hosts: localhost
+#  gather_facts: false
+#  connection: local
+#  vars:
+#    instance_ids:
+#      - 'i-0ff198a4f1ebc29ce'
+#    region: us-east-1
+#  tasks:
+#    - name: Start the feature instances
+#      ec2:
+#        instance_ids: '{{ instance_ids }}'
+#        region: '{{ region }}'
+#        state: running
+#        wait: True
