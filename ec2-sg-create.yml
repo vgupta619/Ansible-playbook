@@ -1,0 +1,63 @@
+---
+- hosts: localhost
+  connection: local   # connection plugin execute tasks on the Ansible ‘controller’
+  gather_facts: False  # gather useful variables about remote hosts that can be used in playbooks.
+  vars:
+    key_name: weareitkings-aws-one-key # key_name will use as variable in playbook
+    region: us-east-1             # region will use as variable
+    image: ami-0323c3dd2da7fb37d   # image id will usee as variable
+    group: default       # security group will use as variable
+  tasks:
+    - name: Fact
+      block:                # Blocks allow for logical grouping of tasks and in play error handling. 
+      - name: Get instances facts
+        ec2_instance_info:                  # Gather information about ec2 instances in AWS
+          region: "{{ region }}"            # The AWS region to use
+        register: result      # store the output to variable "result"
+      - name: Instances ID
+        debug:           # debug module Print statements during execution
+          msg: "ID: {{ item.instance_id }} - State: {{ item.state.name }} - Public DNS: {{ item.public_dns_name }}" 
+          loop: "{{ result.instances }}"   # Loop to repeat a task multiple times.
+        tags: always
+    - name: Provisioning EC2 instances
+      block:
+      - name: Create security group
+        ec2_group:                    # maintains ec2 security groups. 
+          name: AWS-ANSIBLE           # Name of the security group.
+          description: Security group for ec2 provisioned by Ansible # Description of the security group
+          vpc_id: vpc-0bed70abe2a2b28f2
+          region: "{{ region }}"
+          rules:                 # List of firewall inbound rules to enforce in this group
+            - proto: tcp
+              ports:
+                - 22        # traffic to and from port 22
+              cidr_ip: 0.0.0.0/0
+              rule_desc: allow all on ssh port
+            - proto: tcp
+              from_port: 80   # traffic from port 80
+              to_port: 80     # traffic to port 80
+              cidr_ip: 0.0.0.0/0 
+              rule_desc: allow http to from the ec2
+            - proto: icmp
+              from_port: 8 # icmp type, -1 = any type
+              to_port:  -1 # icmp subtype, -1 = any subtype
+              cidr_ip: 0.0.0.0/0
+              rule_desc: allow ping to ec2
+        register: result_sec_group      # store the output to variable "result_sec_group"
+    - name: Provision instances
+      ec2:
+          key_name: "{{ key_name }}"
+          group: AWS-ANSIBLE
+          image: "{{ image }}"
+          instance_type: t2.micro
+          region: "{{ region }}"
+          wait: true
+          count: 1
+          #vpc_id: vpc-0bed70abe2a2b28f2
+          vpc_subnet_id: subnet-0eeba53a76f33dab9
+          # exact_count: 2
+          # count_tag:
+          #   Name: App
+          instance_tags:
+            Name: JUMP-HOST-2
+      tags: create_ec2
