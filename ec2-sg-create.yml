@@ -16,9 +16,10 @@
         register: result      # store the output to variable "result"
       - name: Instances ID
         debug:           # debug module Print statements during execution
-          msg: "ID: {{ item.instance_id }} - State: {{ item.state.name }} - Public DNS: {{ item.public_dns_name }}" 
-          loop: "{{ result.instances }}"   # Loop to repeat a task multiple times.
-        tags: always
+          var: "result.instances"
+         # msg: "ID: {{ item.instance_id }} - State: {{ item.state.name }} - Public DNS: {{ item.public_dns_name }}" 
+         # loop: "{{ result.instances }}"   # Loop to repeat a task multiple times.
+      tags: ['always', 'getinfoonly']
     - name: Provisioning EC2 instances
       block:
       - name: Create security group
