@@ -1,0 +1,9 @@
+---
+- name: using variable in playbook
+  hosts: all
+  vars:
+    user_name: pooja
+  tasks:
+  - name: creat user {{user_name}} using variable 
+    user:
+      name: "{{ user_name }}"

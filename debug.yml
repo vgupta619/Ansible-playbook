@@ -1,0 +1,7 @@
+---
+- name: Using debug
+  hosts: tomcat
+  tasks:
+  - name: printing debug
+    debug:
+     msg: "This is debug message - doing nothing"

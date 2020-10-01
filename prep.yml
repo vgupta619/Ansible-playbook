@@ -1,0 +1,15 @@
+---
+# CentOS specific provisioning
+#
+# # Note - we clean with the shell.  We turn warnings off because this is how
+# # the yum module docs say to do clean.
+- name: Clean Yum Repository
+  shell: yum clean all
+  args:
+    warn: no 
+
+- name: Install EPEL package for CentOS 7
+  yum:
+    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
+    state: latest
+

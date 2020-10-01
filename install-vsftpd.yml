@@ -1,0 +1,14 @@
+---
+- name: Install vsftpd
+  hosts: web
+  tasks:
+    - name: Install
+      yum: name=vsftpd 
+    - name: Start
+      service: name=vsftpd state=started enabled=true
+    - name: Copy file
+      copy:
+       content: "This is first file"
+       dest: /tmp/file.txt
+       force: yes
+       mode: 777

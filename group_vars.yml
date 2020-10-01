@@ -1,0 +1,10 @@
+---
+- name: Playbook to use group variable for target host
+  hosts: all
+  tasks:
+  - name: Display the name group variable
+    debug:
+      msg: The web_package is holding {{web_package}}
+  - name:  
+    debug: 
+      msg: The web_service is holding {{web_service}}

@@ -1,0 +1,12 @@
+---
+- name: Display username and password stored in secret.yml file
+  hosts: all
+  vars_files:
+   - secret.yml
+  tasks:
+  - name: Display username
+    debug:
+      msg: User Name is {{username}}
+  - name: Display Password
+    debug: 
+      msg: Password is {{password}}

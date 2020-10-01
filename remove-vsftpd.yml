@@ -1,0 +1,8 @@
+---
+- name: remove vsftpd if present
+  hosts: tomcat
+  tasks:
+  - name: remove vsftpd
+    yum: name=vsftpd state=absent
+         
+    

@@ -1,0 +1,7 @@
+---
+- name: Display the facts
+  hosts: all
+  tasks: 
+  - name:  collecting facts
+    debug:
+      msg: this is the PC IP {{ansible_facts.default_ipv4.address}} & swap memory {{ansible_facts.memory_mb.swap}}
