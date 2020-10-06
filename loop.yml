@@ -8,7 +8,7 @@
   tasks:
   - name: Start the service {{ my_services }}
     service: 
-     name: "{{ item }}"
+     name: "{{ item }}"       # item is the internal variable by ansible which hold the value for the number of item inside the variable.
      state: started 
     loop: "{{ my_services }}"
 

@@ -1,0 +1,9 @@
+---
+- name: use of when condition
+  hosts: web
+  gather_facts: yes
+  tasks:
+  - name: What is todays date
+    debug:
+      msg: Todays date is 6th
+    when: '"06" in ansible_date_time.day'
