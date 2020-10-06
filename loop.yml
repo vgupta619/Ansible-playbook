@@ -1,0 +1,14 @@
+---
+- name: start some service
+  hosts: web
+  vars:
+   my_services:
+   - httpd
+   - vsftpd
+  tasks:
+  - name: Start the service {{ my_services }}
+    service: 
+     name: "{{ item }}"
+     state: started 
+    loop: "{{ my_services }}"
+

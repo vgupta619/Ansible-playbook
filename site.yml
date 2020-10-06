@@ -1,0 +1,13 @@
+---
+- name: FOR LAMP
+  hosts: lamp
+  gather_facts: no
+  tasks:
+  - name: include lamp task
+    include: tasks/lamp.yml
+
+- name: FOR FILE
+  hosts: file
+  tasks:
+  - name: include file task
+    include: tasks/file.yml

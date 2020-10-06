@@ -1,0 +1,9 @@
+---
+  - name: Install {{file_package}}
+    yum:
+      name: "{{file_package}}"
+      state: present
+  - name: Start {{file_service}}
+    service:
+      name: "{{file_service}}"
+      state: started

@@ -1,0 +1,11 @@
+---
+- name: Learn how register capture the output
+  hosts: web
+  tasks:
+  - name: Capture the output here
+    command: echo HI 
+    register: command_result
+  - name: Display Captured value   
+    debug:
+     msg: "{{ command_result.stdout }}"
+    

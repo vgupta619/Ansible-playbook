@@ -1,0 +1,10 @@
+---
+  - name: Install {{ web_package }}
+    yum:
+     name: "{{ web_package }}"
+     state: present
+  - name: Start {{web_service}}
+    service:
+     name: "{{ web_service }}"
+     state: started
+
