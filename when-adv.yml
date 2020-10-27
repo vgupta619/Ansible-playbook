@@ -1,0 +1,16 @@
+---
+- name: Install package for supported distro
+  hosts: web
+  vars:
+    supported_distro:
+    - RedHat
+    - CentOS
+    - Fedora
+  tasks:
+  - name: Install NGINX
+    yum:
+      name: nginx
+      state: present
+    when: ansible_distribution in supported_distro
+      
+

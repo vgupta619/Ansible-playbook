@@ -1,0 +1,12 @@
+---
+- name: Install package if size available
+  hosts: web
+  gather_facts: yes
+  tasks:
+  - name: Install vsftpd
+    yum:
+     name: vsftpd
+     state: present
+    with_items: "{{ ansible_mounts }}"
+    when: item.mount == "/boot" and item_size_available > 1000000000
+    

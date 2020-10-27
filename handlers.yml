@@ -1,0 +1,24 @@
+---
+- name: Create Web Server
+  hosts: web
+  ignore_errors: yes
+  tasks:
+  - name: Install httpd
+    package: 
+      name: httpd
+      state: present
+  - name: start the service
+    service:
+      name: httpd
+      state: started
+  - name: create index.html
+    copy:
+      src: /tmp/index.html
+      dest: /var/www/html/
+    notify:
+    - restart_web
+  handlers:
+  - name: restart_web
+    service: 
+      name: httpd
+      state: restarted

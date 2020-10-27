@@ -1,0 +1,13 @@
+---
+- name: Start service if service not running
+  hosts: all
+  tasks:
+  - name: Check service status
+    command: /usr/bin/systemctl is-active crond
+    ignore_errors: yes 
+    register: result
+  - name: Starting stopped service
+    service:
+      name: crond
+      state: started
+    when: result.rc == 0
