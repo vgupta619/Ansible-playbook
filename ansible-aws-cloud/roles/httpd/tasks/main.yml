@@ -1,0 +1,17 @@
+---
+# tasks file for httpd
+- name: Install httpd
+  yum:
+    name: httpd
+    state: present
+  notify: restart httpd
+
+- name: check if httpd service is running
+  systemd:
+    name: httpd
+    state: started
+  register: status
+
+- debug:
+    msg: httpd is {{status.state}}
+

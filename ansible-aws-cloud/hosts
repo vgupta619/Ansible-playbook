@@ -1,2 +1,4 @@
+# Not recommended to use static inventory for any cloud operation
+# created for test purpose only
 [web]
 13.234.67.129

@@ -1,0 +1,8 @@
+---
+# tasks file for python
+- name: installing python
+  yum:
+    name: python{{python_version}}
+    state: present
+
+

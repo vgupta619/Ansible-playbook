@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-This script uses the Boto3 library to connect to the AWS EC2 service and retrieve a list of instances with the "web" tag.
+This script uses the Boto3 library to connect to the AWS cloud service and retrieve a list of instances with the "web" tag.
 It then creates an inventory dictionary with a group called "web" and adds each instance's public IP address to the group's "hosts" list.
 It also adds some Ansible-specific variables to each host in the "_meta" group so that Ansible can connect to the instances using SSH.
 """

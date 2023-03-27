@@ -14,3 +14,15 @@
     - name: collecting facts for year
       debug:
         msg: Year {{ansible_facts.date_time.year}}
+
+- name: install httpd using roles
+  hosts: web
+  become: true
+  roles:
+    - role: httpd
+
+- name: install new python
+  hosts: web
+  become: true
+  roles:
+    - role: python
