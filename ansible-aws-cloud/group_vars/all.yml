@@ -1,0 +1,2 @@
+
+ansible_ssh_common_args: '-F {{ playbook_dir|quote }}/ssh_config'

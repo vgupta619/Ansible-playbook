@@ -1,0 +1,16 @@
+---
+- name: ping host
+  hosts: web
+  gather_facts: true
+  become: true
+  tasks:
+    - name: Update the host
+      command: 'yum update -y'
+
+    - name: collecting facts
+      debug:
+        msg: this is the PC IP {{ansible_facts.default_ipv4.address}} & swap memory {{ansible_facts.memory_mb.swap}}
+
+    - name: collecting facts for year
+      debug:
+        msg: Year {{ansible_facts.date_time.year}}
