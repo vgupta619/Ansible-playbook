@@ -23,4 +23,21 @@ pipeline{
             }
         }
     }
+    post{
+        always {
+            echo "Build run"
+        }
+        failure {
+            echo "Build failed!"
+        }
+        success {
+            echo "Build Succeeded!"
+        }
+        unstable {
+            echo "Build Unstable!"
+        }
+        changed {
+            echo "Build state is chnaged."
+        }
+    }
 }
