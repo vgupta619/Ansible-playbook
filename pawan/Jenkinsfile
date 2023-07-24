@@ -28,9 +28,11 @@ pipeline{
     post{
         always {
             echo "Build run"
+            slackSend channel: "#jenkins-notification", message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
         }
         failure {
             echo "Build failed!"
+            slackSend channel: "#jenkins-notification", message: "Build failed!: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
         }
         success {
             echo "Build Succeeded!!"
@@ -38,6 +40,7 @@ pipeline{
         }
         unstable {
             echo "Build Unstable!"
+            slackSend channel: "#jenkins-notification", message: "Build Unstable!: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
         }
         changed {
             echo "Build state is chnaged."
