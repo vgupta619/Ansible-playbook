@@ -34,6 +34,7 @@ pipeline{
         }
         success {
             echo "Build Succeeded!"
+            slackSend channel: "#jenkins-notification", message: "Build Succeeded!: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
         }
         unstable {
             echo "Build Unstable!"
