@@ -3,6 +3,8 @@ pipeline{
     stages{
         stage('Test'){
             steps{
+                echo "Running file bird.sh, see the output."
+                sh 'pawan/bird.sh'
                 echo "Testing the code - phase-1"
                 echo "Testing the code - phase-2"
             }
