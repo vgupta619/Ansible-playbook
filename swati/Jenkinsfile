@@ -1,9 +1,9 @@
-Pipeline{
+Pipline{
     agent any
     Stages{
         Stage('Test'){
             Steps{
-                echo "Test the Code"
+                echo "testing the code"
             }
         }
         Stage('Build'){
