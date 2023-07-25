@@ -28,7 +28,7 @@ pipeline{
     post{
         always {
             echo "Build run"
-        slackSend channel: "#jenkins-notification", message: "Build Started.: ${env.JOB_NAME} ${env.BUILD_NUMBER}", color: "#439FE0"
+        slackSend channel: "#jenkins-notification", message: "Build Started....: ${env.JOB_NAME} ${env.BUILD_NUMBER}", color: "#439FE0"
         }
         failure {
             echo "Build failed!"
