@@ -3,6 +3,8 @@ pipeline{
     stages{
         stage('Test'){
             steps{
+                echo "Running file bird.sh, see the output."
+                sh 'pawan/bird.sh'
                 echo "Testing the code - phase-1"
                 echo "Testing the code - phase-2"
             }
@@ -26,15 +28,19 @@ pipeline{
     post{
         always {
             echo "Build run"
+        slackSend channel: "#jenkins-notification", message: "Build Started....: ${env.JOB_NAME} ${env.BUILD_NUMBER}", color: "#439FE0"
         }
         failure {
             echo "Build failed!"
+            slackSend channel: "#jenkins-notification", message: "Build failed!: ${env.JOB_NAME} ${env.BUILD_NUMBER}", color: "#439FE0"
         }
         success {
-            echo "Build Succeeded!"
+            echo "Build Succeeded!!"
+            slackSend channel: "#jenkins-notification", message: "Build Succeeded!: ${env.JOB_NAME} ${env.BUILD_NUMBER}", color: "#439FE0"
         }
         unstable {
             echo "Build Unstable!"
+            slackSend channel: "#jenkins-notification", message: "Build Unstable!: ${env.JOB_NAME} ${env.BUILD_NUMBER}", color: "#439FE0"
         }
         changed {
             echo "Build state is chnaged."
